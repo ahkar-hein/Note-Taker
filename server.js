@@ -32,3 +32,18 @@ fs.readFile('db/db.json', 'utf8', (err, data) => {
 
 app.get('/api/notes', (req, res) => res.json(notes));
 
+app.post('/api/notes', (req, res) => {
+    const { title, text } = req.body;
+  
+    if (!title || !text) {
+      return res.status(400).json({ error: 'Title and text fields are required.' });
+    }
+  
+    const newNote = {
+      title,
+      text,
+    };
+  
+    notes.push(newNote);
+
+});
