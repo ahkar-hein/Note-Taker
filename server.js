@@ -29,3 +29,6 @@ fs.readFile('db/db.json', 'utf8', (err, data) => {
     }
   }
 });
+
+app.get('/api/notes', (req, res) => res.json(notes));
+
