@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
-const PORT = 3000;
+const PORT = 3001;
 
 const app = express();
 
@@ -38,12 +38,19 @@ app.post('/api/notes', (req, res) => {
     if (!title || !text) {
       return res.status(400).json({ error: 'Title and text fields are required.' });
     }
-  
+
     const newNote = {
+      id: Date.now().toString(),
       title,
       text,
     };
-  
     notes.push(newNote);
-
+    fs.writeFile('db/db.json', JSON.stringify(notes), (err) => {
+        if (err) {
+          console.error('Error writing db.json:', err);
+          return res.status(500).json({ error: 'Failed to save the note.' });
+        }
+    
+        res.status(201).json(newNote);
+      });
 });
