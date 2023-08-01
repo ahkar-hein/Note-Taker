@@ -15,3 +15,17 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
 
 app.listen(PORT, () => console.log(`App listening at http://localhost:${PORT} 🚀`));
+
+let notes = [];
+
+fs.readFile('db/db.json', 'utf8', (err, data) => {
+  if (err) {
+    console.error('Error reading db.json:', err);
+  } else {
+    try {
+      notes = JSON.parse(data);
+    } catch (parseError) {
+      console.error('Error parsing db.json:', parseError);
+    }
+  }
+});
