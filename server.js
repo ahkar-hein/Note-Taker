@@ -54,3 +54,18 @@ app.post('/api/notes', (req, res) => {
         res.status(201).json(newNote);
       });
 });
+app.delete('/api/notes/:id', (req, res) => {
+    const noteId = req.params.id;
+  
+    notes = notes.filter((note) => note.id !== noteId);
+  
+    // Save the updated notes to db.json
+    fs.writeFile('db/db.json', JSON.stringify(notes), (err) => {
+      if (err) {
+        console.error('Error writing db.json:', err);
+        return res.status(500).json({ error: 'Failed to delete the note.' });
+      }
+  
+      res.sendStatus(204);
+    });
+  });
